@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parker_mobile_framework/CommonClass/ErrorMessage.dart';
@@ -15,11 +16,11 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 // ignore: must_be_immutable
 class HeaterStatusPending extends StatefulWidget {
+  HeaterModel availablelistvalue;
+  String servicegetcall;
+  HeaterStatusPending({Key key, this.servicegetcall, this.availablelistvalue})
+      : super(key: key);
 
-   HeaterModel availablelist;
-   HeaterStatusPending({Key key, this.availablelist}) : super(key: key);
- 
- 
   @override
   State<StatefulWidget> createState() {
     return HeaterPendingDeatils();
@@ -29,30 +30,38 @@ class HeaterStatusPending extends StatefulWidget {
 class HeaterPendingDeatils extends State<HeaterStatusPending> {
   String controlstatus;
   HeaterServiceMainBloc _bloc;
-  Timer _timer;
- 
+  Cron cron;
+  Color heateron = Colors.red;
+  Color heateroff = Colors.green;
+  Color heatercolor;
   @override
-  void initState() {
+  // ignore: missing_return
+  Future<void> initState() {
     super.initState();
     _bloc = HeaterServiceMainBloc();
-    setState(() {
-      _timer = Timer.periodic(
-          Duration(seconds: 15), (Timer t) => _bloc.baseService());
-    });
+    widget.availablelistvalue.controlStatus.toString();
+    cron = Cron();
+    if (widget.availablelistvalue.controlStatus
+        .toString()
+        .contains('Success')) {
+      cron.close();
+      print('stop run every 30 sec.');
+    } else {
+      cron.schedule(Schedule.parse('*/1 * * * *'), () async {
+        _bloc.baseService();
+        print('will run every 30 sec.');
+      });
+    }
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
     super.dispose();
   }
 
-
   @override
   void deactivate() {
-    print('deactivate');
     super.deactivate();
-    _timer?.cancel();
   }
 
   @override
@@ -73,24 +82,21 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
                           snapshot.data.data.controlStatus
                               .contains('Pending')) {
                         return PendingDetails(
-                            availablelist: snapshot.data.data);
+                            availablelist: snapshot.data.data,
+                            servicegetcall: "retryServiceCall");
                       } else if (snapshot.hasData &&
                           snapshot.data.data.controlStatus
                               .contains('Success')) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          stopTimer();
-                        });
+                        cron.close();
                         return HeaterStatus(availablelist: snapshot.data.data);
                       } else if (snapshot.hasData &&
                           snapshot.data.data.controlStatus.contains('Fail')) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          stopTimer();
-                        });
+                        cron.close();
                         return HeaterStatus(availablelist: snapshot.data.data);
                       }
-
                       break;
-                    case ApiStatus.Error:
+                    case ApiStatus.Error: 
+                    
                       return ErrorMessage(
                         errorMessage: snapshot.data.message,
                       );
@@ -101,28 +107,23 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
               })),
     );
   }
-
-  void stopTimer() {
-    setState(() {
-      _timer?.cancel();
-    });
-  }
 }
 
 // ignore: must_be_immutable
 class PendingDetails extends StatefulWidget {
-
-   PendingDetails({Key key, this.availablelist}) : super(key: key);
+ String servicegetcall;
 
   HeaterModel availablelist;
- 
+  PendingDetails({Key key, this.availablelist, this.servicegetcall})
+      : super(key: key);
+
+  String controlstatus;
 
   @override
   HeaterPendingDeatilsList createState() => HeaterPendingDeatilsList();
 }
 
 class HeaterPendingDeatilsList extends State<PendingDetails> {
-  String heaterstatus;
   String updatetime,
       connectionstate,
       requesttime,
@@ -133,27 +134,70 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
       reason,
       executiveStatus,
       controlstatus;
+  int actualHeaterState, _selectedValue;
+  Color heateron = Colors.red;
+  Color heateroff = Colors.green;
+  Color heatercolor;
+  String heaterstatus, _selectedStatus, servicegetcallValue;
+
   @override
   void initState() {
     super.initState();
     PreferenceUtils.init();
-    try{
-    updatetime = widget.availablelist.connectionStateLastUpdatedTime.toString();
-    reportedtime = widget.availablelist.reportedTime.toString();
-    requesttime = widget.availablelist.requestTime.toString();
-    controlstatus = widget.availablelist.controlStatus.toString();
-    desiredHeaterState = widget.availablelist.desiredHeaterState.toString();
-    reason = widget.availablelist.reason.toString();
-    executiveStatus = widget.availablelist.detail.executiveStatus.toString();
+
+    try {
+      servicegetcallValue = widget.servicegetcall.toString();
+      updatetime =
+          widget.availablelist.connectionStateLastUpdatedTime.toString();
+      reportedtime = widget.availablelist.reportedTime.toString();
+      requesttime = widget.availablelist.requestTime.toString();
+      controlstatus = widget.availablelist.controlStatus.toString();
+      desiredHeaterState = widget.availablelist.desiredHeaterState.toString();
+      reason = widget.availablelist.reason.toString();
+      executiveStatus = widget.availablelist.detail.executiveStatus.toString();
+      actualHeaterState = widget.availablelist.detail.actualHeaterState.toInt();
+
       setState(() {
-      connectionstate = convertLocal(updatetime);
-      requesttimevalue = convertLocal(requesttime);
-      reportedtimevalue = convertLocal(reportedtime);
-    });
-    } on FetchDataException catch(e) {
-    print('error caught: $e');
-  }
-  
+        connectionstate = convertLocal(updatetime);
+        requesttimevalue = convertLocal(requesttime);
+        reportedtimevalue = convertLocal(reportedtime);
+
+        if (actualHeaterState.isOdd) {
+          heatercolor = heateron;
+          _selectedValue = 0;
+        } else {
+          heatercolor = heateroff;
+          _selectedValue = 1;
+        }
+
+        if (controlstatus.contains("Fail")) {
+          _selectedStatus = "Fail";
+        } else if (controlstatus.contains("Pending") &&
+            servicegetcallValue.contains("Pendingfirst")) {
+          setState(() {
+            final cron = Cron();
+            cron.schedule(Schedule.parse('*/1 * * * *'), () async {
+            
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HeaterStatusPending(
+                                        availablelistvalue: widget.availablelist,
+                          servicegetcall: "Pendingresult")));
+              print('every one minutes');
+              await Future.delayed(Duration(seconds: 20));
+              await cron.close();
+            });
+          });
+        } else {
+          _selectedStatus = "Success";
+        }
+
+        _selectedValue.isOdd ? _selectedValue = 1 : _selectedValue = 0;
+      });
+    } on FetchDataException catch (e) {
+      print('error caught: $e');
+    }
   }
 
   @override
@@ -174,7 +218,6 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
     super.dispose();
   }
 
-  final int _selectedValue = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,19 +229,31 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
                   child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Heater Status:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                child: RichText(
+                  text: TextSpan(
+                      text: HeaterString.heaterstatus,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: controlstatus,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.yellow,
+                                fontSize: 20))
+                      ]),
                 ),
               ),
               ToggleSwitch(
                 initialLabelIndex: _selectedValue,
-                labels: [controlstatus],
-                activeBgColor: Colors.yellow,
+                labels: ['ON', 'OFF'],
+                activeBgColor: heatercolor,
                 activeFgColor: Colors.black,
-                inactiveBgColor: Colors.redAccent,
+                inactiveBgColor: Colors.white,
                 inactiveFgColor: Colors.white,
                 changeOnTap: false,
               ),
@@ -206,26 +261,28 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
                 padding: const EdgeInsets.all(20.0),
                 alignment: FractionalOffset.center,
                 child: Text(
-                  'connectionLastUpdatedTime  : ' +
+                  HeaterString.connectionLastUpdatedTime +
                       connectionstate +
-                      '\n' +
-                      'reportedtime : ' +
+                      '\n\n' +
+                      HeaterString.reportedtime +
                       reportedtimevalue +
-                      '\n' +
-                      'requesttime  :  ' +
+                      '\n\n' +
+                      HeaterString.requesttime +
                       requesttimevalue +
-                      '\n' +
-                      'DesiredHeaterState  : ' +
+                      '\n\n' +
+                      HeaterString.desiredHeaterState +
                       desiredHeaterState +
-                      '\n' +
-                      'Reason  :  ' +
+                      '\n\n' +
+                      HeaterString.reason +
                       reason +
                       '\n \n' +
-                      'ExecutiveStatus : ' +
+                      HeaterString.executiveStatus +
                       executiveStatus +
-                      '\n \n' 
-                      ,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      '\n \n' +
+                      HeaterString.actualHeaterState +
+                      actualHeaterState.toString() +
+                      '\n\n',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               )
             ],

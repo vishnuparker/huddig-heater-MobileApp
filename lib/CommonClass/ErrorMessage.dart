@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ErrorMessage extends StatelessWidget {
-
-
-    final String errorMessage;
+  String errorMessagedefault =
+      " Unable to connect with Platform . Please wait it will connect after 1 min";
+  String errorMessage;
   final Function onRetryPressed;
   ErrorMessage({Key key, this.errorMessage, this.onRetryPressed})
       : super(key: key);
-
-
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -17,17 +15,17 @@ class ErrorMessage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            errorMessage,
+            errorMessagedefault,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 18,
             ),
           ),
           const SizedBox(height: 8),
           RaisedButton(
             color: Colors.white,
-            child: const Text('Retry', style: TextStyle(color: Colors.black)),
+            child: const Text('Retry', style: TextStyle(color: Colors.white)),
             onPressed: onRetryPressed,
           )
         ],

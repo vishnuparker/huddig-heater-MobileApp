@@ -36,6 +36,9 @@ Future<dynamic> putheater(String body, BuildContext context) async {
       body: body);
   print(response.body.toString());
   print(response.statusCode);
+  if(response.statusCode == 500){
+     _showDialog(context);
+  }
   if (response.body != null) {
     heaterModel = HeaterModel.fromJson(jsonDecode(response.body));
     converter(response);
@@ -57,7 +60,8 @@ Future<dynamic> putheater(String body, BuildContext context) async {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HeaterStatusPending(availablelist: heaterModel)));
+                      PendingDetails(availablelist: heaterModel,servicegetcall:"Pendingfirst")));
+
           break;
 
         case 'Success':
@@ -68,6 +72,10 @@ Future<dynamic> putheater(String body, BuildContext context) async {
                       HeaterStatus(availablelist: heaterModel)));
           break;
 
+          case '500 ':
+              print('message:platform timeout');
+              break;
+
         default:
           {
             print('Invalid choice');
@@ -76,6 +84,30 @@ Future<dynamic> putheater(String body, BuildContext context) async {
       }
     }
   }
+    }
+    
+    void _showDialog(BuildContext context) {
+
+            showDialog(
+            context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("platform timeout"),
+          content: new Text("please try after some time or change the toogle selection"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
 }
 
 void getHeaterStatus() {}

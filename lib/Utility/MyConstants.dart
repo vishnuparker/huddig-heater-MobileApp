@@ -1,6 +1,9 @@
 library constants;
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 const String Base_server_URL ='https://apidev.parker.com/dev/vom/iqan/control/api/v1/equipment/id/Q5DT3Z94/heater';
 const String Sub_Url = "/equipment/id/";
@@ -63,6 +66,16 @@ class Trackservice {
       "You can track your application by Tracking ID or Mobile Number";
 }
 
+class HeaterString {
+  static String heaterstatus = "HeaterStatus : ";
+  static String connectionLastUpdatedTime ="ConnectionLastUpdatedTime :";
+  static String reportedtime = "Reportedtime :" ;
+  static String requesttime = "Requesttime :";
+  static String desiredHeaterState = "DesiredHeaterState :";
+  static String reason = "Reason :";
+  static String executiveStatus = "ExecutiveStatus :";
+  static String actualHeaterState = "ActualHeaterState :";
+}
 
 class LoginString{
   static String turnonheater ="Heater";
@@ -172,4 +185,20 @@ String convertLocal(String value){
 }
 
 
+ var alertStyle = AlertStyle(
+    animationType: AnimationType.fromTop,
+    isCloseButton: true,
+    isOverlayTapDismiss: false,
+    descStyle: TextStyle(fontWeight: FontWeight.bold),
+    animationDuration: Duration(milliseconds: 400),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(0.0),
+      side: BorderSide(
+        color: Colors.white70,
+      ),
+    ),
+    titleStyle: TextStyle(
+      color: Colors.yellowAccent,
+    ),
+  );
 

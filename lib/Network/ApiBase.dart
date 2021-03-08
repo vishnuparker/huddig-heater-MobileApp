@@ -12,10 +12,6 @@ class ApiBase {
    ApiBase({this.url});
 
   final String url;
-  
-
- 
-
   Future<dynamic> get() async {
     try {
      final http.Response response =
@@ -46,6 +42,7 @@ class ApiBase {
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 500:
+      throw UnauthorisedException(response.body.toString());
       default:
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');

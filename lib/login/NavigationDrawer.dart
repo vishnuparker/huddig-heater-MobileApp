@@ -25,22 +25,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   int _currentIndex = 0;
   String title = "";
 
-  var alertStyle = AlertStyle(
-    animationType: AnimationType.fromTop,
-    isCloseButton: true,
-    isOverlayTapDismiss: false,
-    descStyle: TextStyle(fontWeight: FontWeight.bold),
-    animationDuration: Duration(milliseconds: 400),
-    alertBorder: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(0.0),
-      side: BorderSide(
-        color: Colors.white70,
-      ),
-    ),
-    titleStyle: TextStyle(
-      color: Colors.yellowAccent,
-    ),
-  );
+  // var alertStyle = AlertStyle(
+  //   animationType: AnimationType.fromTop,
+  //   isCloseButton: true,
+  //   isOverlayTapDismiss: false,
+  //   descStyle: TextStyle(fontWeight: FontWeight.bold),
+  //   animationDuration: Duration(milliseconds: 400),
+  //   alertBorder: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(0.0),
+  //     side: BorderSide(
+  //       color: Colors.white70,
+  //     ),
+  //   ),
+  //   titleStyle: TextStyle(
+  //     color: Colors.yellowAccent,
+  //   ),
+  // );
 
   final List<Widget> _children = [
     LandingFragment(),

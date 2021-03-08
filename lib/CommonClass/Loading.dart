@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
   final String loadingMessage;
@@ -20,9 +21,18 @@ class Loading extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24),
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-          ),
+          // CircularProgressIndicator(
+          //   valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+          // ),
+          SpinKitFadingCircle(
+            itemBuilder: (BuildContext context, int index) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: index.isEven ? Colors.red : Colors.green,
+                ),
+              );
+            },
+          )
         ],
       ),
     );

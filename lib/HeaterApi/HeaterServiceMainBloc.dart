@@ -23,7 +23,7 @@ class HeaterServiceMainBloc {
 
 
   baseService() async {
-    baseserviceSink.add(ApiResponse.loading('please wait'));
+    baseserviceSink.add(ApiResponse.loading('Please wait while fetching detail...'));
     try {
       HeaterModel baseServicedata =
           await _heaterServiceRepository.fetchBaseServiceData();

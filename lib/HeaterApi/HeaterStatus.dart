@@ -9,7 +9,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class HeaterStatus extends StatefulWidget {
   final HeaterModel availablelist;
-
   const HeaterStatus({Key key, this.availablelist}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +36,7 @@ class HeaterDeatails extends State<HeaterStatus> {
   void initState() {
     super.initState();
     PreferenceUtils.init();
-    try {
+    try { 
       updatetime =
           widget.availablelist.connectionStateLastUpdatedTime.toString();
       reportedtime = widget.availablelist.reportedTime.toString();
@@ -46,7 +45,10 @@ class HeaterDeatails extends State<HeaterStatus> {
       desiredHeaterState = widget.availablelist.desiredHeaterState.toString();
       reason = widget.availablelist.reason.toString();
       executiveStatus = widget.availablelist.detail.executiveStatus.toString();
-      actualHeaterState = widget.availablelist.detail.actualHeaterState.toInt();
+      if (widget.availablelist.detail.actualHeaterState!=null) {
+        actualHeaterState =
+            widget.availablelist.detail.actualHeaterState.toInt();
+      }
 
       setState(() {
         heaterstatus = PreferenceUtils.getString(LoginString.heaterstatus);
@@ -54,7 +56,7 @@ class HeaterDeatails extends State<HeaterStatus> {
         requesttimevalue = convertLocal(requesttime);
         reportedtimevalue = convertLocal(reportedtime);
 
-        if (actualHeaterState.isOdd) {
+        if (actualHeaterState.isOdd && actualHeaterState != null) {
           heatercolor = heateron;
           _selectedValue = 0;
         } else {
@@ -94,6 +96,8 @@ class HeaterDeatails extends State<HeaterStatus> {
   @override
   Widget build(BuildContext context) {
     print(_selectedValue);
+    // return WillPopScope(
+    //     onWillPop: _onBackPressed,
     return Scaffold(
         appBar: null,
         body: Align(
@@ -106,7 +110,7 @@ class HeaterDeatails extends State<HeaterStatus> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Heater Status:' + _selectedStatus,
+                  HeaterString.heaterstatus + _selectedStatus,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
@@ -124,25 +128,25 @@ class HeaterDeatails extends State<HeaterStatus> {
                 padding: new EdgeInsets.all(30.0),
                 alignment: FractionalOffset.center,
                 child: new Text(
-                  "ConnectionLastUpdatedTime : " +
+                  HeaterString.connectionLastUpdatedTime +
                       connectionstate +
                       '\n\n' +
-                      "Reportedtime : " +
+                      HeaterString.reportedtime +
                       reportedtimevalue +
                       '\n\n' +
-                      "Requesttime: " +
+                      HeaterString.requesttime +
                       requesttimevalue +
                       '\n\n' +
-                      "DesiredHeaterState" +
+                      HeaterString.desiredHeaterState +
                       desiredHeaterState +
                       '\n\n' +
-                      "Reason :" +
+                      HeaterString.reason +
                       reason +
                       '\n \n' +
-                      "ExecutiveStatus : " +
+                      HeaterString.executiveStatus +
                       executiveStatus +
                       '\n\n' +
-                      "ActualHeaterState :" +
+                      HeaterString.actualHeaterState +
                       actualHeaterState.toString() +
                       '\n\n',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
