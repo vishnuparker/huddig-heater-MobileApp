@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:parker_mobile_framework/HeaterApi/PinCodeVerificationScreen.dart';
 import 'package:parker_mobile_framework/login/Authentication.dart';
 import 'package:parker_mobile_framework/login/Login.dart';
 import 'package:parker_mobile_framework/login/SignOut.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
          '/Authentication': (BuildContext context) => Authentication(),
          '/login': (BuildContext context) => Login(),
          '/signOut':(BuildContext context) =>SignOut(),
+         '/loginotp' :(BuildContext context) => PinCodeVerificationScreen("8801376221100"),
         //  '/Aboutfragment':(context) =>Aboutfragment(),
         // '/Wifiscan':(context)=> Wifiscan(),
         

@@ -23,8 +23,7 @@ class ErrorMessage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          RaisedButton(
-            color: Colors.white,
+          TextButton(
             child: const Text('Retry', style: TextStyle(color: Colors.white)),
             onPressed: onRetryPressed,
           )

@@ -138,11 +138,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         Navigator.pushNamed(context, '/Aboutfragment',
             arguments: {'type': Menu.aboutus});
         break;
-
-      case Menu.faq:
-        Navigator.pushNamed(context, '/faq', arguments: {'type': Menu.faq});
+      case Menu.loginotp:
+        Navigator.pushNamed(context, '/loginotp', arguments: {'type': Menu.loginotp});
         break;
-
+    case Menu.loginotp:
+        Navigator.pushNamed(context, '/faq', arguments: {'type': Menu.loginotp});
+        break;
      
       case Menu.signOut:
         Navigator.pushNamed(context, '/signOut',

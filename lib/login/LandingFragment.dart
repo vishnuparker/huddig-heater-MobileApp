@@ -42,14 +42,25 @@ class _LandingFragmentState extends State<LandingFragment> {
                         padding: EdgeInsets.all(16.0),
                         child: Image.asset('assets/images/parker.jpg'),
                       ),
+                       Text(
+                            HOME.loginMessage,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              decorationStyle: TextDecorationStyle.wavy,
+                              fontSize: 18.0,
+                            ),
+                          ),
                       AppButton(
-                          id: "citizenservice",
+                          id: "PassCode",
                           width: size.width * 0.7,
                           height: size.height * 0.08,
                           onPressed: (route, count, id) =>
                               this._clicked(route, context, id),
-                          route: '/citizenservice',
-                          title: HOME.citizenService),
+                          route: '/loginotp',
+                          title: HOME.passCode),
                       AppButton(
                         id: 'authorityUser',
                         width: size.width * 0.7,

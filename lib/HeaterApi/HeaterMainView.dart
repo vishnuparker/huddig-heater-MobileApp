@@ -72,11 +72,7 @@ Future<dynamic> putheater(String body, BuildContext context) async {
                       HeaterStatus(availablelist: heaterModel)));
           break;
 
-          case '500 ':
-              print('message:platform timeout');
-              break;
-
-        default:
+        default: 
           {
             print('Invalid choice');
           }
@@ -87,7 +83,6 @@ Future<dynamic> putheater(String body, BuildContext context) async {
     }
     
     void _showDialog(BuildContext context) {
-
             showDialog(
             context: context,
       builder: (BuildContext context) {
@@ -214,6 +209,11 @@ class HeaterView extends State<HeaterMainView> {
                       activeTrackColor: Colors.red,
                       activeColor: Colors.green,
                     )
+                  ],
+                ),
+                Row(
+                  children: [
+
                   ],
                 ),
                 const SizedBox(height: 100),

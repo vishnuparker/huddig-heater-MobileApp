@@ -34,6 +34,8 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
   Color heateron = Colors.red;
   Color heateroff = Colors.green;
   Color heatercolor;
+  int _counter = 0;
+  int _countResult;
   @override
   // ignore: missing_return
   Future<void> initState() {
@@ -47,7 +49,8 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
       cron.close();
       print('stop run every 30 sec.');
     } else {
-      cron.schedule(Schedule.parse('*/1 * * * *'), () async {
+      cron.schedule(Schedule.parse('*/30 * * * * *'), () async {
+        print('The values are timer called: 30min timer called');
         _bloc.baseService();
         print('will run every 30 sec.');
       });
@@ -81,22 +84,29 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
                       if (snapshot.hasData &&
                           snapshot.data.data.controlStatus
                               .contains('Pending')) {
+                        _countResult = _counter++;
+                        print(_countResult);
+                        // if (_countResult == 1){
+                        //     return PendingDetails (availablelist: snapshot.data.data,
+                        //     servicegetcall: "Pending failed");
+                        // }else {
                         return PendingDetails(
                             availablelist: snapshot.data.data,
                             servicegetcall: "retryServiceCall");
                       } else if (snapshot.hasData &&
                           snapshot.data.data.controlStatus
                               .contains('Success')) {
+                        _counter = 0;
                         cron.close();
                         return HeaterStatus(availablelist: snapshot.data.data);
                       } else if (snapshot.hasData &&
                           snapshot.data.data.controlStatus.contains('Fail')) {
+                        _counter = 0;
                         cron.close();
                         return HeaterStatus(availablelist: snapshot.data.data);
                       }
                       break;
-                    case ApiStatus.Error: 
-                    
+                    case ApiStatus.Error:
                       return ErrorMessage(
                         errorMessage: snapshot.data.message,
                       );
@@ -111,7 +121,7 @@ class HeaterPendingDeatils extends State<HeaterStatusPending> {
 
 // ignore: must_be_immutable
 class PendingDetails extends StatefulWidget {
- String servicegetcall;
+  String servicegetcall;
 
   HeaterModel availablelist;
   PendingDetails({Key key, this.availablelist, this.servicegetcall})
@@ -176,19 +186,23 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
             servicegetcallValue.contains("Pendingfirst")) {
           setState(() {
             final cron = Cron();
-            cron.schedule(Schedule.parse('*/1 * * * *'), () async {
-            
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HeaterStatusPending(
-                                        availablelistvalue: widget.availablelist,
+            // */1 * * * * ever one min */10 * * * * * ever 10 sec
+            print('pending detail every one minutes');
+            cron.schedule(Schedule.parse('*/60 * * * * *'), () async {
+              print('The values are timer called: 1min timer called');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HeaterStatusPending(
+                          availablelistvalue: widget.availablelist,
                           servicegetcall: "Pendingresult")));
-              print('every one minutes');
-              await Future.delayed(Duration(seconds: 20));
               await cron.close();
             });
           });
+          // } else if (controlstatus.contains("Pending") &&
+          //     servicegetcallValue.contains("Pending failed")){
+          //       _selectedValue.isOdd ;
+          // }
         } else {
           _selectedStatus = "Success";
         }
@@ -284,7 +298,15 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
                       '\n\n',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-              )
+              ),
+//               Container(
+//                 child: FlatButton(
+//   onPressed: () => {
+// 	//do something
+//   },
+//   child: new Text('Retry by manual '),
+// ),
+//               )
             ],
           ))),
         ));

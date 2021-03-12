@@ -32,6 +32,8 @@ class SidebarList extends StatelessWidget {
 
         _createOption('Support', Icons.support, Menu.faq),
         Divider(),
+          _createOption('OTP', Icons.support, Menu.loginotp),
+        Divider(),
          _createOption('About Us', Icons.art_track,Menu.aboutus),
         Divider(),
         _createOption("SignOut", Icons.exit_to_app, Menu.signOut),
@@ -63,6 +65,6 @@ class SidebarList extends StatelessWidget {
   
 }
 
-enum Menu {login,signOut,faq,feedback,aboutus,heaterStatus}
+enum Menu {login,signOut,faq,feedback,aboutus,heaterStatus,loginotp}
 
 enum Class{feedbackalert}

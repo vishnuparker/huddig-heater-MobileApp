@@ -7,7 +7,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 const String Base_server_URL ='https://apidev.parker.com/dev/vom/iqan/control/api/v1/equipment/id/Q5DT3Z94/heater';
 const String Sub_Url = "/equipment/id/";
-const String Mastertag = "JFWEZI4A";
+const String Mastertag = "OLBWR9JG";
 const String OrgId_url = "/heater?orgId=";
 const String OcpApimSubscriptionKey ="615d3d0e70a34648b41a4da670f9deb2";
 const String Subscriptionkey = "subscriptionkey";
@@ -28,12 +28,12 @@ class BOTTOMNAV {
 
 class HOME {
   static String title = "Welcome";
-  static String loginMessage = "Sign In As:";
-  static String login = "SignIn";
+  static String loginMessage = "Sign In:";
+  static String login = "Credentials";
   static String trackServices = "Track Services";
   static String serviceComplaint = "Service Complaint";
   static String markmyattendance = "Mark My Attendance";
-  static String citizenService = " Registration";
+  static String passCode = "Enter PassCode";
   static String trackapplication =
       "You can track your Assert by Tracking ID ";
   static String trackid = "Tracking ID";
@@ -97,6 +97,8 @@ class LoginString{
   static String success = "Success";
   static String valueTrue = "Success" ;
   static String huggigheater =" Huddig - Heater";
+  static String heaterPiNq ="Heater Controller MT:Q5DT3Z94";
+  static String heaterPIN0 ="Heater Controller MT:OLBWR9JG";
   static String hintheater ="Please turn ON and OFF \n The Heater to know the  status";
   
 }

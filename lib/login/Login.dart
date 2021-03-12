@@ -125,10 +125,10 @@ class _State extends State<Login> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) =>  HeaterMainView()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (BuildContext context) =>  HeaterMainView()),
+                    // );
 
                     //  _scaffoldKey.currentState.showSnackBar(new SnackBar(
                     //    content: new Text("Your email: $email and Password: $password"),
