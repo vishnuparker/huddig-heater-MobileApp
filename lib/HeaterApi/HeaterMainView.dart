@@ -152,6 +152,8 @@ class HeaterView extends State<HeaterMainView> {
                         child: Text(LoginString.huggigheater,
                             style: const TextStyle(
                                 fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily:'Trajan Pro',
                                 fontStyle: FontStyle.italic,
                                 color: Colors.blueAccent),
                             textAlign: TextAlign.center),
@@ -166,6 +168,8 @@ class HeaterView extends State<HeaterMainView> {
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontFamily:'Trajan Pro',
                                 color: Colors.black),
                             textAlign: TextAlign.center),
                       ),
@@ -178,6 +182,8 @@ class HeaterView extends State<HeaterMainView> {
                       txtValue,
                       style: const TextStyle(
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily:'Trajan Pro',
                           fontStyle: FontStyle.italic,
                           color: Colors.black),
                       textAlign: TextAlign.left,

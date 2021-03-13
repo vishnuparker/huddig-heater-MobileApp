@@ -296,7 +296,8 @@ class HeaterPendingDeatilsList extends State<PendingDetails> {
                       HeaterString.actualHeaterState +
                       actualHeaterState.toString() +
                       '\n\n',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,
+                                fontFamily:'Trajan Pro',),
                 ),
               ),
 //               Container(

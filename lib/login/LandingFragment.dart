@@ -28,8 +28,9 @@ class _LandingFragmentState extends State<LandingFragment> {
                 child: Container(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                   // mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 30,),
                       Text(
                         HOME.title,
                         textAlign: TextAlign.center,
@@ -49,6 +50,7 @@ class _LandingFragmentState extends State<LandingFragment> {
                               fontStyle: FontStyle.normal,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
+                               fontFamily:'Trajan Pro',
                               decorationStyle: TextDecorationStyle.wavy,
                               fontSize: 18.0,
                             ),
@@ -70,7 +72,9 @@ class _LandingFragmentState extends State<LandingFragment> {
                         route: '/login',
                         title: HOME.login,
                       ),
+                      SizedBox(height: 30,),
                       Container(
+                         alignment: Alignment.bottomCenter,
                         padding: EdgeInsets.fromLTRB(0, 18, 0, 0),
                         child: Text(
                           LoginString.termsconditions,
@@ -78,20 +82,23 @@ class _LandingFragmentState extends State<LandingFragment> {
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.black,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
+                            fontFamily:'Schyler',
                             decorationStyle: TextDecorationStyle.wavy,
                             fontSize: 16.0,
                           ),
                         ),
                       ),
                       Container(
+                        alignment: Alignment.bottomCenter,
                         child: Text(
                           LoginString.termshint,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
                             color: Colors.black,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
+                             fontFamily:'Trajan Pro',
                             decorationStyle: TextDecorationStyle.wavy,
                             fontSize: 16.0,
                           ),
@@ -99,6 +106,7 @@ class _LandingFragmentState extends State<LandingFragment> {
                       )
                     ],
                   ),
+                  
                 ),
               ),
             )));

@@ -111,7 +111,8 @@ class HeaterDeatails extends State<HeaterStatus> {
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
                   HeaterString.heaterstatus + _selectedStatus,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, 
+                                fontFamily:'Trajan Pro'),
                 ),
               ),
               ToggleSwitch(
@@ -149,7 +150,8 @@ class HeaterDeatails extends State<HeaterStatus> {
                       HeaterString.actualHeaterState +
                       actualHeaterState.toString() +
                       '\n\n',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
+                                fontFamily:'Trajan Pro'),
                 ),
               )
             ],

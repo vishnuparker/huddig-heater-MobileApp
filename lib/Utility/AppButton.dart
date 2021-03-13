@@ -46,7 +46,7 @@ class AppButton extends StatelessWidget {
   borderRadius: BorderRadius.circular(30.0),
   side: BorderSide(color: Colors.yellow)
 ),
-          child: Text(title, style: TextStyle(color: Colors.black, fontSize: 16.0),),
+          child: Text(title, style: TextStyle(color: Colors.black, fontSize: 18.0, fontFamily:'Trajan Pro',),),
           onPressed: ()=> this.onPressed(route,context,id),
         ));
   }

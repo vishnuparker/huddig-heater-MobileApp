@@ -6,10 +6,8 @@ import 'package:parker_mobile_framework/login/Authentication.dart';
 import 'package:parker_mobile_framework/login/Login.dart';
 import 'package:parker_mobile_framework/login/SignOut.dart';
 
-
-
 void main() => runApp(MyApp());
-  
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,13 +18,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       routes: {
-         '/Authentication': (BuildContext context) => Authentication(),
-         '/login': (BuildContext context) => Login(),
-         '/signOut':(BuildContext context) =>SignOut(),
-         '/loginotp' :(BuildContext context) => PinCodeVerificationScreen("8801376221100"),
+        '/Authentication': (BuildContext context) => Authentication(),
+        '/login': (BuildContext context) => Login(),
+        '/signOut': (BuildContext context) => SignOut(),
+        '/loginotp': (BuildContext context) =>
+            PinCodeVerificationScreen("8801376221100"),
         //  '/Aboutfragment':(context) =>Aboutfragment(),
         // '/Wifiscan':(context)=> Wifiscan(),
-        
       },
     );
   }
